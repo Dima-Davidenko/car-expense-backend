@@ -7,9 +7,15 @@ export class FirebaseService {
   private app: admin.app.App;
 
   constructor() {
-    this.app = admin.initializeApp({
-      credential: admin.credential.cert(serviceAccount as admin.ServiceAccount),
-    });
+    if (!admin.apps.length) {
+      this.app = admin.initializeApp({
+        credential: admin.credential.cert(
+          serviceAccount as admin.ServiceAccount,
+        ),
+      });
+    } else {
+      this.app = admin.app(); // reuse the already-initialized app
+    }
   }
 
   async verifyToken(idToken: string) {

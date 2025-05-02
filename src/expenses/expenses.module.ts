@@ -5,6 +5,7 @@ import { RepairLog, RepairLogSchema } from './schemas/repair-log.schema';
 import { ServiceLog, ServiceLogSchema } from './schemas/service-log.schema';
 import { ExpensesController } from './expenses.controller';
 import { ExpensesService } from './expenses.service';
+import { FirebaseModule } from '../firebase/firebase.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { ExpensesService } from './expenses.service';
       { name: RepairLog.name, schema: RepairLogSchema },
       { name: ServiceLog.name, schema: ServiceLogSchema },
     ]),
+    FirebaseModule,
   ],
   controllers: [ExpensesController],
   providers: [ExpensesService],

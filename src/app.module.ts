@@ -5,6 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { FirebaseService } from './firebase/firebase.service';
+import { ExpensesModule } from './expenses/expenses.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { FirebaseService } from './firebase/firebase.service';
         return { uri };
       },
     }),
+    ExpensesModule,
   ],
 
   controllers: [AppController],
