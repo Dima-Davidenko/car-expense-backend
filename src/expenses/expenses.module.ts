@@ -4,6 +4,7 @@ import { FuelExpense, FuelExpenseSchema } from './schemas/fuel-expense.schema';
 import { RepairLog, RepairLogSchema } from './schemas/repair-log.schema';
 import { ServiceLog, ServiceLogSchema } from './schemas/service-log.schema';
 import { ExpensesController } from './expenses.controller';
+import { ExpensesService } from './expenses.service';
 
 @Module({
   imports: [
@@ -14,5 +15,6 @@ import { ExpensesController } from './expenses.controller';
     ]),
   ],
   controllers: [ExpensesController],
+  providers: [ExpensesService],
 })
 export class ExpensesModule {}

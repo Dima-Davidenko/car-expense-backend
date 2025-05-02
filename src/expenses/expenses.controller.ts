@@ -1,15 +1,44 @@
-import { Controller, Get, UseGuards, Req } from '@nestjs/common';
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import { ExpensesService } from './expenses.service';
 import { FirebaseAuthGuard } from '../auth/firebase-auth.guard';
 
-@Controller('expenses')
+@Controller()
 @UseGuards(FirebaseAuthGuard)
 export class ExpensesController {
-  @Get()
-  getExpenses(@Req() req) {
-    return {
-      message: 'Expenses retrieved successfully',
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-      uid: req.user.uid,
-    };
+  constructor(private readonly expensesService: ExpensesService) {}
+
+  // Fuel
+  @Post('fuel')
+  createFuel(@Req() req, @Body() body) {
+    return this.expensesService.createFuel(req.user.uid, body);
+  }
+
+  @Get('fuel')
+  getFuel(@Req() req) {
+    return this.expensesService.getFuel(req.user.uid);
+  }
+
+  // Repair
+  @Post('repair')
+  createRepair(@Req() req, @Body() body) {
+    return this.expensesService.createRepair(req.user.uid, body);
+  }
+
+  @Get('repair')
+  getRepairs(@Req() req) {
+    return this.expensesService.getRepairs(req.user.uid);
+  }
+
+  // Service
+  @Post('service')
+  createService(@Req() req, @Body() body) {
+    return this.expensesService.createService(req.user.uid, body);
+  }
+
+  @Get('service')
+  getServices(@Req() req) {
+    return this.expensesService.getServices(req.user.uid);
   }
 }
