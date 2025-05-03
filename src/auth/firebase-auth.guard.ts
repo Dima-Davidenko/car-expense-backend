@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import {
   CanActivate,
   ExecutionContext,
@@ -5,6 +7,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { FirebaseService } from '@/src/firebase/firebase.service';
+import { GqlExecutionContext } from '@nestjs/graphql';
 import { Request } from 'express';
 
 @Injectable()
@@ -12,9 +15,10 @@ export class FirebaseAuthGuard implements CanActivate {
   constructor(private readonly firebaseService: FirebaseService) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const req = context.switchToHttp().getRequest<Request>();
-    const authHeader = req.headers.authorization;
+    const gqlCtx = GqlExecutionContext.create(context);
+    const req: Request = gqlCtx.getContext().req;
 
+    const authHeader = req.headers.authorization;
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
       throw new UnauthorizedException(
         'Missing or invalid Authorization header',
@@ -25,7 +29,6 @@ export class FirebaseAuthGuard implements CanActivate {
 
     try {
       const decodedToken = await this.firebaseService.verifyToken(idToken);
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       (req as any).user = decodedToken;
       return true;
     } catch {

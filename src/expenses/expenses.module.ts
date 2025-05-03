@@ -3,9 +3,9 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { FuelExpense, FuelExpenseSchema } from './schemas/fuel-expense.schema';
 import { RepairLog, RepairLogSchema } from './schemas/repair-log.schema';
 import { ServiceLog, ServiceLogSchema } from './schemas/service-log.schema';
-import { ExpensesController } from './expenses.controller';
 import { ExpensesService } from './expenses.service';
 import { FirebaseModule } from '../firebase/firebase.module';
+import { FuelExpenseResolver } from './fuel-expense.resolver';
 
 @Module({
   imports: [
@@ -16,7 +16,6 @@ import { FirebaseModule } from '../firebase/firebase.module';
     ]),
     FirebaseModule,
   ],
-  controllers: [ExpensesController],
-  providers: [ExpensesService],
+  providers: [ExpensesService, FuelExpenseResolver],
 })
 export class ExpensesModule {}
